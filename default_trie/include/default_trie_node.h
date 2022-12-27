@@ -1,5 +1,6 @@
 #ifndef default_trie_node
 #define default_trie_node
+#define NO_MATCH -1
 
 #include <vector>
 #include <unordered_map>
@@ -12,7 +13,7 @@ namespace ostp::libcc
     /// the match ending in this node or NO_MATCH if there isn't one.
     ///
     /// The specified type K must have a hash function defined for it.
-    template <typename K>
+    template <class K>
     class TrieNode
     {
         /// Next entries in the trie.
