@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22.1)
 
-project(default_try)
+project(default_trie)
 
 add_library(${PROJECT_NAME} SHARED)
 
