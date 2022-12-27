@@ -14,7 +14,7 @@ namespace ostp::libcc
     ///
     /// The specified type K must have a hash function defined for it.
     template <class K>
-    class TrieNode
+    struct TrieNode
     {
         /// Next entries in the trie.
         std::unordered_map<K, int> next;
