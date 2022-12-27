@@ -39,7 +39,6 @@ namespace ostp::libcc
                 {
                     trie[node].next[entry[i]] = trie.size();
                     TrieNode<K> new_node;
-                    new_node.next = new std::unordered_map<K, int>();
                     new_node.res = NO_MATCH;
                     trie.push_back(new_node);
                 }
