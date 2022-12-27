@@ -22,7 +22,10 @@ namespace ostp::lib_cc
         /// Adds the specfied entry to the trie with the specified return.
         void add(K entry[], int entry_len, R entry_return);
 
-        // Returns the return for the longest match in the trie for the specified entry.
+        /// Removes the specified entry from the trie.
+        void remove(K entry[], int entry_len);
+
+        /// Returns the return for the longest match in the trie for the specified entry.
         R get(K entry[], int entry_len);
     };
 

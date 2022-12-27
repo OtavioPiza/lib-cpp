@@ -33,9 +33,43 @@ namespace ostp::lib_cc
             node = trie[node].next[entry[i]];
         }
 
-        // Add the return to the results vector and set the node's return index.
-        trie[node].res = results.size();
-        results.push_back(entry_return);
+        // If there is already a return for the match ending in the last node, replace it otherwise
+        // add it to the results vector.
+        if (trie[node].res != NO_MATCH)
+        {
+            results[trie[node].res] = entry_return;
+            return;
+        }
+        else
+        {
+            trie[node].res = results.size();
+            results.push_back(entry_return);
+        }
+    }
+
+    // See default_trie.h for documentation.
+    template <typename K, typename R>
+    void DefaultTrie<K, R>::remove(K entry[], int entry_len)
+    {
+        // Traverse the trie until we reach the end of the entry or a node with no next entry.
+        int node = 0;
+        for (int i = 0; i < entry_len; i++)
+        {
+            // Return if there is no next entry.
+            if (trie[node].next.find(entry[i]) == trie[node].next.end())
+            {
+                return;
+            }
+
+            // Move to the next node.
+            node = trie[node].next[entry[i]];
+        }
+
+        // If there is a return for the match ending in the last node, remove it.
+        if (trie[node].res != NO_MATCH)
+        {
+            results[trie[node].res] = NO_MATCH;
+        }
     }
 
     // See default_trie.h for documentation.
