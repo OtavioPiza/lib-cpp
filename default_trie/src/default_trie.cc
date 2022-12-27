@@ -1,7 +1,7 @@
 #include "../include/default_trie.h"
 #include "constants.h"
 
-namespace ostp::lib_cc
+namespace ostp::libcc
 {
     // See default_trie.h for documentation.
     template <typename K, typename R>
@@ -102,4 +102,4 @@ namespace ostp::lib_cc
         }
     }
 
-} // namespace ostp::lib_cpp
+} // namespace ostp::libcc
