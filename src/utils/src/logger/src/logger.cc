@@ -1,6 +1,6 @@
 #include <string>
 
-#include "../include/logger.h"
+#include "logger.h"
 #include "colors.h"
 #include "streams.h"
 
