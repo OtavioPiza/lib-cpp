@@ -4,7 +4,7 @@
 using ostp::libcc::data_structures::DefaultTrie;
 using ostp::libcc::utils::log_error;
 
-const char _sender[] = "default_trie_add_test";
+const char *_sender = "default_trie_add_test";
 const int _no_match = -1;
 const int _match = 1;
 const int _match_2 = 2;
