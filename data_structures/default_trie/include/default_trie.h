@@ -19,15 +19,31 @@ namespace ostp::libcc::data_structures
 
     public:
         /// Constructs a trie with the specified default return for no matches.
-        DefaultTrie(const R default_return) : default_return(default_return)
+        ///
+        /// Arguments:
+        ///     default_return: The default return for no matches.
+        ///     root_return: The return for the root node.
+        DefaultTrie(const R default_return, const R root_return) : default_return(default_return)
         {
             // Add the root node to the trie.
             TrieNode<K> root;
-            root.res = NO_MATCH;
+            root.res = results.size();
+            results.push_back(root_return);
             trie.push_back(root);
         }
 
+        /// Constructs a trie with the specified default return for no matches and for the root node.
+        ///
+        /// Arguments:
+        ///     default_return: The default return for no matches and for the root node.
+        DefaultTrie(const R default_return) : DefaultTrie(default_return, default_return) {}
+
         /// Adds the specfied entry to the trie with the specified return.
+        ///
+        /// Arguments:
+        ///     entry: The entry to add to the trie.
+        ///     entry_len: The length of the entry.
+        ///     entry_return: The return for the entry.
         void add(const K entry[], const int entry_len, const R entry_return)
         {
             // Traverse the trie until we reach the end of the entry or a node with no next entry.
@@ -62,6 +78,10 @@ namespace ostp::libcc::data_structures
         }
 
         /// Removes the specified entry from the trie.
+        ///
+        /// Arguments:
+        ///     entry: The entry to remove from the trie.
+        ///     entry_len: The length of the entry.
         void remove(const K entry[], const int entry_len)
         {
             // Traverse the trie until we reach the end of the entry or a node with no next entry.
@@ -86,6 +106,10 @@ namespace ostp::libcc::data_structures
         }
 
         /// Returns the return for the longest match in the trie for the specified entry.
+        ///
+        /// Arguments:
+        ///     entry: The entry to get the return for.
+        ///     entry_len: The length of the entry.
         R get(const K entry[], const int entry_len)
         {
             // Traverse the trie until we reach the end of the entry or a node with no next entry.
