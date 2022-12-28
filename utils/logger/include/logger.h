@@ -1,8 +1,6 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include <string>
-
 namespace ostp::libcc::utils
 {
     /// Logs a message with the INFO level.
