@@ -16,5 +16,5 @@ if (${PROJECT_IS_TOP_LEVEL})
 enable_testing()
 endif()
 
-add_subdirectory(data_structures data_structures)
-add_subdirectory(utils utils)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/data_structures data_structures)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils utils)
