@@ -8,5 +8,3 @@ target_link_libraries(
     data_structures
     INTERFACE default_trie
 )
-
-# add_subdirectory(tests)
