@@ -1,5 +1,5 @@
-#ifndef default_trie_node
-#define default_trie_node
+#ifndef DEFAULT_TRIE_NODE_H
+#define DEFAULT_TRIE_NODE_H
 #define NO_MATCH -1
 
 #include <vector>

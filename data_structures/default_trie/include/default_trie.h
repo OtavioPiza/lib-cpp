@@ -1,5 +1,5 @@
-#ifndef default_trie
-#define default_trie
+#ifndef DEFAULT_TRIE_H
+#define DEFAULT_TRIE_H
 
 #include <vector>
 #include <unordered_map>
