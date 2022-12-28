@@ -8,28 +8,28 @@ namespace ostp::libcc::utils
     /// Args:
     ///     msg: The message to log.
     ///     sender: The name of the sender of the message.
-    void log_info(const char *msg, const char *sender);
+    void log_info(const char *, const char *);
 
     /// Logs a message with the SUCCESS level.
     ///
     /// Args:
     ///     msg: The message to log.
     ///     sender: The name of the sender of the message.
-    void log_success(const char *msg, const char *sender);
+    void log_success(const char *, const char *);
 
     /// Logs a message with the WARN level.
     ///
     /// Args:
     ///     msg: The message to log.
     ///     sender: The name of the sender of the message.
-    void log_warn(const char *msg, const char *sender);
+    void log_warn(const char *, const char *);
 
     /// Logs a message with the ERROR level.
     ///
     /// Args:
     ///     msg: The message to log.
     ///     sender: The name of the sender of the message.
-    void log_error(const char *msg, const char *sender);
+    void log_error(const char *, const char *);
 
 }   // namespace ostp::libcc::util
 

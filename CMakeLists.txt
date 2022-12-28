@@ -4,6 +4,7 @@ project(libcc)
 
 add_library(${PROJECT_NAME} INTERFACE)
 
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(
     ${PROJECT_NAME}
     INTERFACE 
@@ -11,7 +12,9 @@ target_link_libraries(
         utils
 )
 
+if (${PROJECT_IS_TOP_LEVEL})
 enable_testing()
+endif()
 
 add_subdirectory(data_structures data_structures)
 add_subdirectory(utils utils)

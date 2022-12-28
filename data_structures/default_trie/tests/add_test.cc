@@ -3,6 +3,7 @@
 
 using ostp::libcc::data_structures::DefaultTrie;
 using ostp::libcc::utils::log_error;
+using ostp::libcc::utils::log_success;
 
 const char *_sender = "default_trie_add_test";
 const int _no_match = -1;
@@ -18,7 +19,7 @@ int main()
     // After adding a key, the trie should return the specified return value for that key.
     if (trie.get("abc", 3) != _no_match)
     {
-        // log_error("The trie should return the default value when the key is not found.", _sender);
+        log_error("The trie should return the default value when the key is not found.", _sender);
         return 1;
     }
 
@@ -26,7 +27,7 @@ int main()
 
     if (trie.get("abc", 3) != _match)
     {
-        // log_error("The trie should return the specified value when the key is found.", _sender);
+        log_error("The trie should return the specified value when the key is found.", _sender);
         return 1;
     }
 
@@ -35,7 +36,7 @@ int main()
 
     if (trie.get("abc", 3) != _match_2)
     {
-        // log_error("The trie should return the specified value when the key is found.", _sender);
+        log_error("The trie should return the specified value when the key is found.", _sender);
         return 1;
     }
 
@@ -46,7 +47,7 @@ int main()
     if (trie.get("ab", 2) != _match || trie.get("abc", 3) != _match_2 ||
         trie.get("abcd", 4) != _match)
     {
-        // log_error("The trie should return the correct value for keys with shared prefixes.", _sender);
+        log_error("The trie should return the correct value for keys with shared prefixes.", _sender);
         return 1;
     }
 
