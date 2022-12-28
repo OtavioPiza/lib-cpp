@@ -5,7 +5,7 @@
 #include <vector>
 #include <unordered_map>
 
-namespace ostp::libcc
+namespace ostp::libcc::data_structures
 {
     /// Node in the default trie data structure.
     ///
@@ -23,6 +23,6 @@ namespace ostp::libcc
         int res;
     };
 
-} // namespace ostp::libcc
+} // namespace ostp::libcc::data_structures
 
 #endif

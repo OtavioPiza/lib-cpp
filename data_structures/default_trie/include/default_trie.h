@@ -6,7 +6,7 @@
 
 #include "default_trie_node.h"
 
-namespace ostp::libcc
+namespace ostp::libcc::data_structures
 {
     /// Default trie data structure.
     template <class K, class R>
@@ -115,6 +115,6 @@ namespace ostp::libcc
         }
     };
 
-} // namespace ostp::libcc
+} // namespace ostp::libcc::data_structures
 
 #endif
