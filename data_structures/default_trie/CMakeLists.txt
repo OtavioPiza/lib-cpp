@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.22.1)
 
-project(default_trie)
-
-add_library(${PROJECT_NAME} INTERFACE)
-
+add_library(default_trie INTERFACE)
 target_include_directories(
-    ${PROJECT_NAME}
+    default_trie
     INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
+add_subdirectory(tests)

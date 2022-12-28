@@ -4,8 +4,9 @@ project(libcc)
 
 add_library(${PROJECT_NAME} INTERFACE)
 
-add_subdirectory(data_structures data_structures)
+enable_testing()
 
+add_subdirectory(data_structures data_structures)
 target_link_libraries(
     ${PROJECT_NAME}
     INTERFACE 

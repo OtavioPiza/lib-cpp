@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 3.22.1)
 
-project(data_structures)
-
-add_library(${PROJECT_NAME} INTERFACE)
+add_library(data_structures INTERFACE)
 
 add_subdirectory(default_trie default_trie)
 
 target_link_libraries(
-    ${PROJECT_NAME}
-    INTERFACE 
-        default_trie
+    data_structures
+    INTERFACE default_trie
 )
+
+# add_subdirectory(tests)
