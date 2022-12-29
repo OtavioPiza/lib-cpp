@@ -7,6 +7,8 @@ target_link_libraries(
     utils
     INTERFACE
         logger
+        status_or
 )
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/logger  logger)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/logger logger)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/status_or status_or)
