@@ -3,5 +3,6 @@
 
 #include "logger.h"
 #include "status_or.h"
+#include "status.h"
 
 #endif
