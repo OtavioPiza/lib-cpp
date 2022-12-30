@@ -5,7 +5,7 @@ using ostp::libcc::data_structures::DefaultTrie;
 const int _no_match_1 = -1;
 const int _no_match_2 = -2;
 
-/// Tests whether the default value is returned when the key is not found.
+/// Tests whether the default value is correctly updated.
 int main()
 {
     // The root node should return the specified root return value.
