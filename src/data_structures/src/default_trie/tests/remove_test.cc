@@ -10,9 +10,9 @@ int main()
 {
     // The root node should return the specified root return value.
     DefaultTrie<char, int> trie(_no_match, _match);
-    trie.add("a", 1, _match);
-    trie.add("ab", 2, _match);
-    trie.add("abc", 3, _match);
+    trie.insert("a", 1, _match);
+    trie.insert("ab", 2, _match);
+    trie.insert("abc", 3, _match);
 
     // Removing a key works.
     trie.remove("ab", 2);

@@ -13,7 +13,7 @@ namespace ostp::libcc::data_structures
     class DefaultTrie
     {
     private:
-        const R default_return;        // Default return for no matches.
+        R default_return;              // Default return for no matches.
         std::vector<R> results;        // Vector of returns for each match in the trie.
         std::vector<TrieNode<K>> trie; // Trie data structure.
 
@@ -35,16 +35,19 @@ namespace ostp::libcc::data_structures
         /// Constructs a trie with the specified default return for no matches and for the root node.
         ///
         /// Arguments:
-        ///     default_return: The default return for no matches and for the root node.
-        DefaultTrie(const R default_return) : DefaultTrie(default_return, default_return) {}
+        ///     default_return: The default return for no matches.
+        DefaultTrie(const R default_return) : DefaultTrie(default_return, default_return)
+        {
+            this->trie[0].res = NO_MATCH;
+        }
 
-        /// Adds the specfied entry to the trie with the specified return.
+        /// Inserts the specfied entry to the trie with the specified return.
         ///
         /// Arguments:
         ///     entry: The entry to add to the trie.
         ///     entry_len: The length of the entry.
         ///     entry_return: The return for the entry.
-        void add(const K entry[], const int entry_len, const R entry_return)
+        void insert(const K entry[], const int entry_len, const R entry_return)
         {
             // Traverse the trie until we reach the end of the entry or a node with no next entry.
             int node = 0;
@@ -75,6 +78,15 @@ namespace ostp::libcc::data_structures
                 trie[node].res = results.size();
                 results.push_back(entry_return);
             }
+        }
+
+        /// Updates the default return for no matches.
+        ///
+        /// Arguments:
+        ///     default_return: The new default return for no matches.
+        void update_default_return(const R default_return)
+        {
+            this->default_return = default_return;
         }
 
         /// Removes the specified entry from the trie.

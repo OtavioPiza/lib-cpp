@@ -5,7 +5,7 @@ using ostp::libcc::data_structures::DefaultTrie;
 using ostp::libcc::utils::log_error;
 using ostp::libcc::utils::log_success;
 
-const char *_sender = "default_trie_add_test";
+const char *_sender = "default_trie_insert_test";
 const int _no_match = -1;
 const int _match = 1;
 const int _match_2 = 2;
@@ -23,7 +23,7 @@ int main()
         return 1;
     }
 
-    trie.add("abc", 3, _match);
+    trie.insert("abc", 3, _match);
 
     if (trie.get("abc", 3) != _match)
     {
@@ -32,7 +32,7 @@ int main()
     }
 
     // After re-inserting a key, the trie should return the specified return value for that key.
-    trie.add("abc", 3, _match_2);
+    trie.insert("abc", 3, _match_2);
 
     if (trie.get("abc", 3) != _match_2)
     {
@@ -41,8 +41,8 @@ int main()
     }
 
     // Keys can share prefixes.
-    trie.add("ab", 2, _match);
-    trie.add("abcd", 4, _match);
+    trie.insert("ab", 2, _match);
+    trie.insert("abcd", 4, _match);
 
     if (trie.get("ab", 2) != _match || trie.get("abc", 3) != _match_2 ||
         trie.get("abcd", 4) != _match)

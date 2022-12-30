@@ -22,8 +22,8 @@ int main()
         return 1;
     }
 
-    trie.add("ab", 2, 1);
-    trie.add("bc", 2, 2);
+    trie.insert("ab", 2, 1);
+    trie.insert("bc", 2, 2);
 
     // Trie should return default value for non-existent key.
     if (trie.get("abc", 3) != _no_match)
