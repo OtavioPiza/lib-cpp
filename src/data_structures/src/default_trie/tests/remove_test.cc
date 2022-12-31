@@ -9,7 +9,7 @@ const int _match = 1;
 int main()
 {
     // The root node should return the specified root return value.
-    DefaultTrie<char, int> trie(_no_match, _match);
+    DefaultTrie<char, int> trie(_no_match);
     trie.insert("a", 1, _match);
     trie.insert("ab", 2, _match);
     trie.insert("abc", 3, _match);

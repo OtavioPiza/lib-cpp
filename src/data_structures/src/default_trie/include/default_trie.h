@@ -1,8 +1,8 @@
 #ifndef DEFAULT_TRIE_H
 #define DEFAULT_TRIE_H
 
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 #include "default_trie_node.h"
 
@@ -18,27 +18,17 @@ namespace ostp::libcc::data_structures
         std::vector<TrieNode<K>> trie; // Trie data structure.
 
     public:
-        /// Constructs a trie with the specified default return for no matches.
-        ///
-        /// Arguments:
-        ///     default_return: The default return for no matches.
-        ///     root_return: The return for the root node.
-        DefaultTrie(const R default_return, const R root_return) : default_return(default_return)
-        {
-            // Add the root node to the trie.
-            TrieNode<K> root;
-            root.res = results.size();
-            results.push_back(root_return);
-            trie.push_back(root);
-        }
-
         /// Constructs a trie with the specified default return for no matches and for the root node.
         ///
         /// Arguments:
         ///     default_return: The default return for no matches.
-        DefaultTrie(const R default_return) : DefaultTrie(default_return, default_return)
+        DefaultTrie(const R default_return)
         {
-            this->trie[0].res = NO_MATCH;
+            // Add the root node to the trie.
+            TrieNode<K> root;
+            root.res = NO_MATCH;
+            this->trie.push_back(root);
+            this->default_return = default_return;
         }
 
         /// Inserts the specfied entry to the trie with the specified return.
