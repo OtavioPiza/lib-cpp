@@ -69,8 +69,9 @@ START_TEST(DefaultTrie_RemoveTest)
     trie.insert("abc", 3, 3);
 
     // Removing a key works.
+    int size_before = trie.size();
     trie.remove("ab", 2);
-    TEST(trie.get("ab", 2) == no_match);
+    TEST(trie.get("ab", 2) == no_match && trie.size() == size_before - 1);
 
     // Neither the children or parents are removed.
     TEST(trie.get("abc", 3) == 3);

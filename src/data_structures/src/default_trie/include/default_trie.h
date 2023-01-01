@@ -16,6 +16,7 @@ namespace ostp::libcc::data_structures
         R default_return;              // Default return for no matches.
         std::vector<R> results;        // Vector of returns for each match in the trie.
         std::vector<TrieNode<K>> trie; // Trie data structure.
+        int _size = 0;                 // Number of entries in the trie.
 
     public:
         /// Constructs a trie with the specified default return for no matches and for the root node.
@@ -29,6 +30,12 @@ namespace ostp::libcc::data_structures
             root.res = NO_MATCH;
             this->trie.push_back(root);
             this->default_return = default_return;
+        }
+
+        /// Returns the size of the trie.
+        int size()
+        {
+            return this->_size;
         }
 
         /// Inserts the specfied entry to the trie with the specified return.
@@ -65,6 +72,7 @@ namespace ostp::libcc::data_structures
             }
             else
             {
+                this->_size++;
                 trie[node].res = results.size();
                 results.push_back(entry_return);
             }
@@ -103,6 +111,7 @@ namespace ostp::libcc::data_structures
             // If there is a return for the match ending in the last node, remove it.
             if (trie[node].res != NO_MATCH)
             {
+                this->_size--;
                 results[trie[node].res] = NO_MATCH;
             }
         }
