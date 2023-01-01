@@ -6,28 +6,28 @@
 
 namespace ostp::libcc::utils
 {
-// See logger.h for documentation.
-void log_info(const char *msg, const char *sender)
-{
-    fprintf(INFO_STREAM, NORMAL "[%s] INFO: %s" NORMAL, sender, msg);
-}
+    // See logger.h for documentation.
+    void log_info(const std::string &msg, const std::string &sender)
+    {
+        fprintf(INFO_STREAM, NORMAL "[%s] %s" NORMAL, sender.c_str(), msg.c_str());
+    }
 
-// See logger.h for documentation.
-void log_success(const char *msg, const char *sender)
-{
-    fprintf(INFO_STREAM, GREEN "[%s] SUCCESS: %s" NORMAL, sender, msg);
-}
+    // See logger.h for documentation.
+    void log_success(const std::string &msg, const std::string &sender)
+    {
+        fprintf(INFO_STREAM, GREEN "[%s] %s" NORMAL, sender.c_str(), msg.c_str());
+    }
 
-// See logger.h for documentation.
-void log_warn(const char *msg, const char *sender)
-{
-    fprintf(INFO_STREAM, YELLOW "[%s] WARN: %s" NORMAL, sender, msg);
-}
+    // See logger.h for documentation.
+    void log_warn(const std::string &msg, const std::string &sender)
+    {
+        fprintf(WARN_STREAM, YELLOW "[%s] %s" NORMAL, sender.c_str(), msg.c_str());
+    }
 
-// See logger.h for documentation.
-void log_error(const char *msg, const char *sender)
-{
-    fprintf(ERROR_STREAM, RED "[%s] ERROR: %s" NORMAL, sender, msg);
-}
+    // See logger.h for documentation.
+    void log_error(const std::string &msg, const std::string &sender)
+    {
+        fprintf(ERROR_STREAM, RED "[%s] %s" NORMAL, sender.c_str(), msg.c_str());
+    }
 
-}   // namespace ostp::libcc::util
+} // namespace ostp::libcc::util
