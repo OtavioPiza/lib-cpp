@@ -15,6 +15,7 @@ namespace ostp::libcc::data_structures
     private:
         R default_return;              // Default return for no matches.
         std::vector<R> results;        // Vector of returns for each match in the trie.
+        std::vector<int> free_slots;   // Vector of free slots in the results vector.
         std::vector<TrieNode<K>> trie; // Trie data structure.
         int _size = 0;                 // Number of entries in the trie.
 
@@ -73,8 +74,17 @@ namespace ostp::libcc::data_structures
             else
             {
                 this->_size++;
-                trie[node].res = results.size();
-                results.push_back(entry_return);
+                if (free_slots.size() > 0)
+                {
+                    trie[node].res = free_slots.back();
+                    free_slots.pop_back();
+                    results[trie[node].res] = entry_return;
+                }
+                else
+                {
+                    trie[node].res = results.size();
+                    results.push_back(entry_return);
+                }
             }
         }
 
@@ -113,6 +123,7 @@ namespace ostp::libcc::data_structures
             {
                 this->_size--;
                 results[trie[node].res] = NO_MATCH;
+                free_slots.push_back(trie[node].res);
             }
         }
 
