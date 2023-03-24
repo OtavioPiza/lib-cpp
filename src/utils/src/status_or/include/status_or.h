@@ -29,10 +29,10 @@ namespace ostp::libcc::utils
         // Methods to check the status of the operation.
 
         /// Returns true if the operation was successful.
-        bool ok() const { return status == Status::OK; }
+        bool ok() const { return status == Status::SUCCESS; }
 
         /// Returns true if the operation failed.
-        bool failed() const { return status != Status::OK; }
+        bool failed() const { return status != Status::SUCCESS; }
     };
 }
 
