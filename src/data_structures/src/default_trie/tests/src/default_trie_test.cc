@@ -1,7 +1,8 @@
+#include "default_trie.h"
+
 #include <sstream>
 #include <string>
 
-#include "default_trie.h"
 #include "logger.h"
 #include "testing.h"
 
@@ -13,8 +14,7 @@ const int no_match = -1;
 
 START_SUITE(DefaultTrie_Constructor)
 
-START_TEST(EmptyStringShouldHaveNoMatch)
-{
+START_TEST(EmptyStringShouldHaveNoMatch) {
     DefaultTrie<char, int> trie(no_match);
 
     // The trie should be empty and have no matches even for empty strings.
@@ -22,8 +22,7 @@ START_TEST(EmptyStringShouldHaveNoMatch)
 }
 END_TEST
 
-START_TEST(DefaultTrie_Get)
-{
+START_TEST(DefaultTrie_Get) {
     DefaultTrie<char, int> trie(no_match);
 
     // Empty trie should return default value for key.
@@ -42,8 +41,7 @@ START_TEST(DefaultTrie_Get)
 }
 END_TEST
 
-START_TEST(DefaultTrie_InsertTest)
-{
+START_TEST(DefaultTrie_InsertTest) {
     DefaultTrie<char, int> trie(no_match);
 
     // After inserting a key, the trie should match it.
@@ -60,8 +58,7 @@ START_TEST(DefaultTrie_InsertTest)
 }
 END_TEST
 
-START_TEST(DefaultTrie_RemoveTest)
-{
+START_TEST(DefaultTrie_RemoveTest) {
     DefaultTrie<char, int> trie(no_match);
 
     trie.insert("a", 1, 1);
@@ -79,14 +76,26 @@ START_TEST(DefaultTrie_RemoveTest)
 }
 END_TEST
 
-START_TEST(DefaultTrie_UpdateDefaultReturn)
-{
+START_TEST(DefaultTrie_UpdateDefaultReturn) {
     DefaultTrie<char, int> trie(no_match);
 
     // The default return value can be updated.
     ASSERT(trie.get("abc", 3) != 1);
     trie.update_default_return(1);
     TEST(trie.get("abc", 3) == 1);
+}
+END_TEST
+
+START_TEST(DefaultTrie_ContainsTest) {
+    DefaultTrie<char, int> trie(no_match);
+
+    // The trie should not contain any keys.
+    TEST(!trie.contains("abc", 3));
+
+    trie.insert("abc", 3, 1);
+
+    // The trie should contain the inserted key.
+    TEST(trie.contains("abc", 3));
 }
 END_TEST
 
