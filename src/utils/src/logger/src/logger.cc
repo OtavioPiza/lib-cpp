@@ -13,7 +13,7 @@ namespace ostp::libcc::utils
     }
 
     // See logger.h for documentation.
-    void log_success(const std::string &msg, const std::string &sender)
+    void log_ok(const std::string &msg, const std::string &sender)
     {
         fprintf(INFO_STREAM, GREEN "[%s] %s" NORMAL, sender.c_str(), msg.c_str());
     }

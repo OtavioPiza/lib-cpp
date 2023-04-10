@@ -17,7 +17,7 @@ namespace ostp::libcc::utils
     /// Args:
     ///     msg: The message to log.
     ///     sender: The name of the sender of the message.
-    void log_success(const std::string &, const std::string &);
+    void log_ok(const std::string &, const std::string &);
 
     /// Logs a message with the WARN level.
     ///
