@@ -7,7 +7,7 @@ namespace ostp::libcc::utils
     enum class Status
     {
         /// The operation was successful.
-        SUCCESS,
+        OK,
 
         /// The operation had a warning.
         WARNING,
