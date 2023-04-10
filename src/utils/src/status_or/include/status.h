@@ -18,8 +18,8 @@ namespace ostp::libcc::utils
         /// The operation was cancelled.
         CANCELLED,
 
-        /// The operation had an unknown status.
-        UNKNOWN
+        /// The operation returned information.
+        INFO
     };
 }
 
