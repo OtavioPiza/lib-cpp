@@ -34,6 +34,32 @@ namespace ostp::libcc::utils
         /// Returns true if the operation failed.
         bool failed() const { return status != Status::OK; }
     };
+
+    /// Specialization of StatusOr for void.
+    template <>
+    struct StatusOr<void>
+    {
+        /// The status of the operation.
+        const Status status;
+
+        /// The status message of the operation.
+        const char *status_message;
+
+        /// Constructs a StatusOr with the given status.
+        ///
+        /// Arguments:
+        ///     status: The status of the operation.
+        StatusOr(const Status status, const char *status_message)
+            : status(status), status_message(status_message) {}
+
+        // Methods to check the status of the operation.
+
+        /// Returns true if the operation was successful.
+        bool ok() const { return status == Status::OK; }
+
+        /// Returns true if the operation failed.
+        bool failed() const { return status != Status::OK; }
+    };
 }
 
 #endif
