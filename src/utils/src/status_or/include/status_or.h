@@ -25,6 +25,14 @@ namespace ostp::libcc::utils
         ///     result: The result of the operation.
         StatusOr(const Status status, const char *status_message, const T result)
             : status(status), result(result), status_message(status_message) {}
+
+        // Methods to check the status of the operation.
+
+        /// Returns true if the operation was successful.
+        bool ok() const { return status == Status::SUCCESS; }
+
+        /// Returns true if the operation failed.
+        bool failed() const { return status != Status::SUCCESS; }
     };
 }
 
