@@ -42,7 +42,7 @@
     }                                                                                         \
     else                                                                                      \
     {                                                                                         \
-        ostp::libcc::utils::log_success("Test '" + _test_name + "' passed!\n", __FILENAME__); \
+        ostp::libcc::utils::log_ok("Test '" + _test_name + "' passed!\n", __FILENAME__); \
         _tests_passed++;                                                                      \
     }                                                                                         \
     }                                                                                         \
@@ -56,7 +56,7 @@
     }                                                                                           \
     else                                                                                        \
     {                                                                                           \
-        ostp::libcc::utils::log_success("Suite '" + _suite_name + "' passed!\n", __FILENAME__); \
+        ostp::libcc::utils::log_ok("Suite '" + _suite_name + "' passed!\n", __FILENAME__); \
         return 0;                                                                               \
     }                                                                                           \
     }
