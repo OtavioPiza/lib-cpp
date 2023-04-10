@@ -9,8 +9,17 @@ namespace ostp::libcc::utils
         /// The operation was successful.
         SUCCESS,
 
+        /// The operation had a warning.
+        WARNING,
+
         /// The operation failed.
-        ERROR
+        ERROR,
+
+        /// The operation was cancelled.
+        CANCELLED,
+
+        /// The operation had an unknown status.
+        UNKNOWN
     };
 }
 
