@@ -6,10 +6,13 @@
 #include <semaphore>
 #include <string>
 
+#include "status_or.h"
+
 using std::atomic_int;
 using std::binary_semaphore;
 using std::queue;
 using std::string;
+using ostp::libcc::utils::StatusOr;
 
 namespace ostp::libcc::data_structures {
 
@@ -19,10 +22,10 @@ class MessageQueue {
     MessageQueue();
 
     /// Pushes a message to the queue.
-    void push(const std::string message);
+    StatusOr<void> push(const std::string message);
 
     /// Pops a message from the queue.
-    string pop();
+    StatusOr<string> pop();
 
     /// Close the queue.
     void close();

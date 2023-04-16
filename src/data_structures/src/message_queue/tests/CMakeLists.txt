@@ -1,5 +1,5 @@
 # Default trie tests.
-set(MESSAGE_QUEUE_TEST_LIBS message_queue testing)
+set(MESSAGE_QUEUE_TEST_LIBS message_queue testing status_or)
 
 # Default try add tests.
 add_executable(message_queue_test src/message_queue_test.cc)
