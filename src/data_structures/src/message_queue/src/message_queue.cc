@@ -40,7 +40,7 @@ StatusOr<string> MessageQueue::pop() {
 
     string message = std::move(messages.front());
     messages.pop();
-    return StatusOr<string>(Status::ERROR, "Queue is closed and empty.", std::move(message));
+    return StatusOr<string>(Status::OK, "Message popped.", message);
 }
 
 /// See message_queue.h for documentation.
