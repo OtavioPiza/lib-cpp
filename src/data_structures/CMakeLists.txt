@@ -6,9 +6,9 @@ target_link_libraries(
     INTERFACE
         default_trie
         marked_array
-        message_queue
+        message_buffer
 )
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/default_trie default_trie)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/marked_array marked_array)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/message_queue message_queue)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/message_buffer message_buffer)

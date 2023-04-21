@@ -1,26 +1,35 @@
 #ifndef LIBCC_STATUS_H
 #define LIBCC_STATUS_H
 
-namespace ostp::libcc::utils
-{
-    /// Represents the status of an operation.
-    enum class Status
-    {
-        /// The operation was successful.
-        OK,
+namespace ostp::libcc::utils {
 
-        /// The operation had a warning.
-        WARNING,
+/// Represents the status of an operation.
+enum class Status {
+    /// Cancellation status.
+    CANCELLED,
 
-        /// The operation failed.
-        ERROR,
+    /// Closed status.
+    CLOSED,
 
-        /// The operation was cancelled.
-        CANCELLED,
+    /// Empty status.
+    EMPTY,
 
-        /// The operation returned information.
-        INFO
-    };
-}
+    /// Error status.
+    ERROR,
+
+    /// Informational status.
+    INFO,
+
+    /// OK status.
+    OK,
+
+    /// Time out status.
+    TIMEOUT,
+
+    /// Warning status.
+    WARNING
+};
+
+}  // namespace ostp::libcc::utils
 
 #endif

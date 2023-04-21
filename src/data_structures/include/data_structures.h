@@ -3,6 +3,6 @@
 
 #include "default_trie.h"
 #include "marked_array.h"
-#include "message_queue.h"
+#include "message_buffer.h"
 
 #endif
