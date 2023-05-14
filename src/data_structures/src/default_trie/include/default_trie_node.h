@@ -16,11 +16,25 @@ namespace ostp::libcc::data_structures
     template <class K>
     struct TrieNode
     {
-        /// Next entries in the trie.
-        std::unordered_map<K, int> next;
-
         /// Index of the return for the match ending in this node or NO_MATCH if there isn't one.
         int res;
+
+        /// Next entries in the trie.
+        std::unordered_map<K, int> next;
+    };
+
+    /// Specialization of the TrieNode struct for char.
+    ///
+    /// Stores the next entries in the trie in an array and the index of the return for
+    /// the match ending in this node or NO_MATCH if there isn't one.
+    template <>
+    struct TrieNode<char>
+    {
+        /// Index of the return for the match ending in this node or NO_MATCH if there isn't one.
+        int res;
+
+        /// Next entries in the trie.
+        std::vector<char> next;
     };
 
 } // namespace ostp::libcc::data_structures
