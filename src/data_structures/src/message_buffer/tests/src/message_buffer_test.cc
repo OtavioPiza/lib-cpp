@@ -1,18 +1,17 @@
 #include "message_buffer.h"
 
 #include <chrono>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <thread>
-#include <memory>
 
+#include "absl/status/status.h"
 #include "logger.h"
-#include "status.h"
 #include "testing.h"
 
 using ostp::libcc::data_structures::MessageBuffer;
 using ostp::libcc::utils::log_error;
-using ostp::libcc::utils::Status;
 using std::stringstream;
 using std::thread;
 
@@ -28,9 +27,9 @@ START_TEST(ConstructsEmptyQueue) {
     TEST(!queue.is_closed());
     TEST(queue.empty());
 
-    auto size_res = queue.size();
-    TEST(size_res.result == 0);
-    TEST(size_res.status == Status::OK);
+    auto [status, size] = queue.size();
+    TEST(size == 0);
+    TEST(status == absl::OkStatus());
 }
 END_TEST
 
@@ -39,13 +38,13 @@ START_TEST(PushUnblocksPop) {
 
     // Create a thread to pop.
     auto t1 = thread([&]() {
-        auto pop_res = queue.pop();
-        TEST(pop_res.result == message1);
-        TEST(pop_res.status == Status::OK);
+        auto [status, res] = queue.pop();
+        TEST(status == absl::OkStatus());
+        TEST(res == message1);
     });
 
     // Push message.
-    queue.push(string(message1));
+    TEST(queue.push(string(message1)) == absl::OkStatus());
     t1.join();
 }
 END_TEST
@@ -55,13 +54,18 @@ START_TEST(MessagesAreDeliveredInOrder) {
 
     // Create a thread to pop.
     auto t1 = thread([&]() {
-        TEST(queue.pop().result == message1);
-        TEST(queue.pop().result == message2);
+        auto [status1, res1] = queue.pop();
+        TEST(status1 == absl::OkStatus());
+        TEST(res1 == message1);
+
+        auto [status2, res2] = queue.pop();
+        TEST(status2 == absl::OkStatus());
+        TEST(res2 == message2);
     });
 
     // Push message.
-    queue.push(string(message1));
-    queue.push(string(message2));
+    TEST(queue.push(string(message1)) == absl::OkStatus());
+    TEST(queue.push(string(message2)) == absl::OkStatus());
     t1.join();
 }
 END_TEST
@@ -71,22 +75,21 @@ START_TEST(PopWithTimeoutCanUnblockNormally) {
 
     // Create a thread to pop.
     auto t1 = thread([&]() {
-        auto pop_res = queue.pop(10000000);
-        TEST(pop_res.result == message1);
-        TEST(pop_res.status == Status::OK);
+        auto [status, res] = queue.pop(10000000);
+        TEST(status == absl::OkStatus());
+        TEST(res == message1);
     });
 
     // Push message.
-    queue.push(string(message1));
+    TEST(queue.push(string(message1)) == absl::OkStatus());
     t1.join();
 }
 END_TEST
 
 START_TEST(PopWithTimeoutUnblocksAfterTimeoutWithTimeoutStatus) {
     MessageBuffer<string> queue;
-    auto pop_res = queue.pop(10);
-    TEST(pop_res.status == Status::TIMEOUT);
-    TEST(queue.is_closed() == true);
+    auto [status, res] = queue.pop(10);
+    TEST(status.code() == absl::StatusCode::kDeadlineExceeded);
 }
 END_TEST
 
@@ -95,8 +98,9 @@ START_TEST(CloseUnblocksPop) {
 
     // Create a thread to pop.
     auto t1 = thread([&]() {
-        auto pop_res = queue.pop();
-        TEST(pop_res.status == Status::EMPTY);
+        auto [status, res] = queue.pop();
+        TEST(status.code() == absl::StatusCode::kCancelled);
+        TEST(res == "");
     });
 
     // Close the queue.
@@ -107,26 +111,28 @@ END_TEST
 
 START_TEST(MessagesInTheBufferAreRetrievableAfterClose) {
     MessageBuffer<string> queue;
-    queue.push(string(message1));
-    queue.push(string(message2));
+    TEST(queue.push(string(message1)) == absl::OkStatus());
+    TEST(queue.push(string(message2)) == absl::OkStatus());
 
     // Close the queue.
     queue.close();
 
     // Pop the messages.
-    auto pop1_res = queue.pop();
-    TEST(pop1_res.result == message1);
-    TEST(pop1_res.status == Status::CLOSED);
+    auto [pop1_status, pop1_res] = queue.pop();
+    TEST(pop1_status == absl::OkStatus());
+    TEST(pop1_res == message1);
 
-    auto pop2_res = queue.pop();
-    TEST(pop2_res.result == message2);
-    TEST(pop2_res.status == Status::CLOSED);
+    auto [pop2_status, pop2_res] = queue.pop();
+    TEST(pop2_status == absl::OkStatus());
 
     // The queue should be closed and empty.
     TEST(queue.is_closed());
     TEST(queue.empty());
-    TEST(queue.pop().status == Status::EMPTY);
 
+    auto [size_status, size] = queue.size();
+    TEST(size == 0);
+
+    TEST(queue.pop().first.code() == absl::StatusCode::kCancelled);
 }
 END_TEST
 

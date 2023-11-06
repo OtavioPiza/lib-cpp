@@ -7,7 +7,7 @@ target_include_directories(
 target_link_libraries(
     message_buffer
     INTERFACE
-        status_or
+        absl::status
 )
 
 if (${PROJECT_IS_TOP_LEVEL})

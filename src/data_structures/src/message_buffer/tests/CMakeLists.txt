@@ -1,5 +1,5 @@
 # Default trie tests.
-set(message_buffer_TEST_LIBS message_buffer testing status_or)
+set(message_buffer_TEST_LIBS message_buffer testing absl::status)
 
 # Default try add tests.
 add_executable(message_buffer_test src/message_buffer_test.cc)

@@ -11,10 +11,8 @@
 #include <string>
 #include <vector>
 
-#include "status_or.h"
+#include "absl/status/status.h"
 
-using ostp::libcc::utils::Status;
-using ostp::libcc::utils::StatusOr;
 using std::atomic_int;
 using std::binary_semaphore;
 using std::future;
@@ -43,10 +41,10 @@ class MessageBuffer {
     /// Returns:
     ///     OK if the message was pushed successfully.
     ///     CLOSED if the queue is closed.
-    StatusOr<void> push(T &&message) {
+    absl::Status push(T &&message) {
         // Check if the queue is closed.
         if (closed) {
-            return StatusOr<void>(Status::CLOSED, "Queue is closed.");
+            return absl::CancelledError("Queue is closed.");
         }
 
         // Push the message to the queue and signal the semaphore.
@@ -56,7 +54,7 @@ class MessageBuffer {
         semaphore.release();
 
         // Return OK.
-        return StatusOr<void>(Status::OK, "Message pushed.");
+        return absl::OkStatus();
     }
 
     /// Pops a message from the queue.
@@ -71,10 +69,10 @@ class MessageBuffer {
     ///     OK if the message was popped successfully and the message is returned.
     ///     CLOSED if the queue is closed and the message is returned.
     ///     EMPTY if the queue is empty and closed.
-    StatusOr<T> pop() {
+    std::pair<absl::Status, T> pop() {
         // If the queue is closed and empty, return an empty string.
         if (closed && messages.empty()) {
-            return StatusOr<T>(Status::EMPTY, "Queue is closed and empty.", "");
+            return {absl::CancelledError("Queue is closed and empty."), {}};
         }
 
         // Wait for a message to be available.
@@ -85,7 +83,7 @@ class MessageBuffer {
         // If the queue was closed while waiting and there are no more messages, return an empty
         // string.
         if (closed && messages.empty()) {
-            return StatusOr<T>(Status::EMPTY, "Queue was closed and is empty.", "");
+            return {absl::CancelledError("Queue is closed and empty."), {}};
         }
 
         // Pop the message from the queue.
@@ -93,8 +91,7 @@ class MessageBuffer {
         messages.pop();
 
         // Return the message.
-        return StatusOr<T>(closed ? (Status::CLOSED) : (Status::OK), "Message popped.",
-                           std::move(message));
+        return {absl::OkStatus(), std::move(message)};
     }
 
     /// Pops a message from the queue with a timeout.
@@ -111,11 +108,12 @@ class MessageBuffer {
     ///     TIMEOUT if the timeout was reached.
     ///     CLOSED if the queue is closed and the message is returned.
     ///     EMPTY if the queue is empty and closed.
-    StatusOr<T> pop(int timeout) {
+    std::pair<absl::Status, T> pop(int timeout) {
         // Try to pop a message with the pop() method without a timeout.
-        auto future =
-            std::async(std::launch::async,
-                       static_cast<StatusOr<T> (MessageBuffer::*)()>(&MessageBuffer::pop), this);
+        auto future = std::async(
+            std::launch::async,
+            static_cast<std::pair<absl::Status, T> (MessageBuffer::*)()>(&MessageBuffer::pop),
+            this);
 
         // Wait until the future is ready or the timeout is reached.
         future_status status = future.wait_for(std::chrono::milliseconds(timeout));
@@ -125,7 +123,7 @@ class MessageBuffer {
             return std::move(future.get());
         } else {
             close();
-            return StatusOr<T>(Status::TIMEOUT, "Timeout reached.", {});
+            return {absl::DeadlineExceededError("Timeout reached."), {}};
         }
     }
 
@@ -160,11 +158,11 @@ class MessageBuffer {
     ///        threads waiting on the queue).
     ///     CLOSED if the queue is closed and the number of messages is returned or minus the number
     //             of threads waiting.
-    StatusOr<int> size() const {
+    std::pair<absl::Status, int> size() const {
         // If the message que is not closed return the number of message available or minus
         // the number of thread blocked.
-        return StatusOr<int>(closed ? Status::CLOSED : Status::OK, "",
-                             messages.empty() ? -waiting_threads : messages.size());
+        return {closed ? absl::CancelledError("Queue is closed.") : absl::OkStatus(),
+                closed ? -waiting_threads : messages.size()};
     }
 
     /// Returns whether the queue is closed.
