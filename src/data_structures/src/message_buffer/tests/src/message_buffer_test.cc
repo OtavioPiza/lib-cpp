@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <thread>
+#include <memory>
 
 #include "logger.h"
 #include "status.h"
@@ -21,7 +22,7 @@ const string message2 = "def";
 START_SUITE(MessageBuffer_Tests)
 
 START_TEST(ConstructsEmptyQueue) {
-    MessageBuffer queue;
+    MessageBuffer<string> queue;
 
     // The queue should be open and empty.
     TEST(!queue.is_closed());
@@ -34,7 +35,7 @@ START_TEST(ConstructsEmptyQueue) {
 END_TEST
 
 START_TEST(PushUnblocksPop) {
-    MessageBuffer queue;
+    MessageBuffer<string> queue;
 
     // Create a thread to pop.
     auto t1 = thread([&]() {
@@ -44,13 +45,13 @@ START_TEST(PushUnblocksPop) {
     });
 
     // Push message.
-    queue.push(message1);
+    queue.push(string(message1));
     t1.join();
 }
 END_TEST
 
 START_TEST(MessagesAreDeliveredInOrder) {
-    MessageBuffer queue;
+    MessageBuffer<string> queue;
 
     // Create a thread to pop.
     auto t1 = thread([&]() {
@@ -59,14 +60,14 @@ START_TEST(MessagesAreDeliveredInOrder) {
     });
 
     // Push message.
-    queue.push(message1);
-    queue.push(message2);
+    queue.push(string(message1));
+    queue.push(string(message2));
     t1.join();
 }
 END_TEST
 
 START_TEST(PopWithTimeoutCanUnblockNormally) {
-    MessageBuffer queue;
+    MessageBuffer<string> queue;
 
     // Create a thread to pop.
     auto t1 = thread([&]() {
@@ -76,13 +77,13 @@ START_TEST(PopWithTimeoutCanUnblockNormally) {
     });
 
     // Push message.
-    queue.push(message1);
+    queue.push(string(message1));
     t1.join();
 }
 END_TEST
 
 START_TEST(PopWithTimeoutUnblocksAfterTimeoutWithTimeoutStatus) {
-    MessageBuffer queue;
+    MessageBuffer<string> queue;
     auto pop_res = queue.pop(10);
     TEST(pop_res.status == Status::TIMEOUT);
     TEST(queue.is_closed() == true);
@@ -90,7 +91,7 @@ START_TEST(PopWithTimeoutUnblocksAfterTimeoutWithTimeoutStatus) {
 END_TEST
 
 START_TEST(CloseUnblocksPop) {
-    MessageBuffer queue;
+    MessageBuffer<string> queue;
 
     // Create a thread to pop.
     auto t1 = thread([&]() {
@@ -105,9 +106,9 @@ START_TEST(CloseUnblocksPop) {
 END_TEST
 
 START_TEST(MessagesInTheBufferAreRetrievableAfterClose) {
-    MessageBuffer queue;
-    queue.push(message1);
-    queue.push(message2);
+    MessageBuffer<string> queue;
+    queue.push(string(message1));
+    queue.push(string(message2));
 
     // Close the queue.
     queue.close();

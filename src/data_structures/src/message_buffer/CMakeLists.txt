@@ -1,24 +1,12 @@
-add_library(message_buffer SHARED)
-
-# Library sources and headers.
-target_sources(
-    message_buffer
-    PRIVATE 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/message_buffer.cc
-)
-
+add_library(message_buffer INTERFACE)
 target_include_directories(
     message_buffer
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-    PUBLIC
+    INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-
-# Link dependencies.
 target_link_libraries(
     message_buffer
-    PRIVATE
+    INTERFACE
         status_or
 )
 
