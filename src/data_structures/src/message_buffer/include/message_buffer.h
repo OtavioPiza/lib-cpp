@@ -8,6 +8,7 @@
 #include <memory>
 #include <queue>
 #include <semaphore>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -69,10 +70,10 @@ class MessageBuffer {
     ///     OK if the message was popped successfully and the message is returned.
     ///     CLOSED if the queue is closed and the message is returned.
     ///     EMPTY if the queue is empty and closed.
-    std::pair<absl::Status, T> pop() {
+    std::pair<absl::Status, std::optional<T>> pop() {
         // If the queue is closed and empty, return an empty string.
         if (closed && messages.empty()) {
-            return {absl::CancelledError("Queue is closed and empty."), {}};
+            return {absl::CancelledError("Queue is closed and empty."), std::nullopt};
         }
 
         // Wait for a message to be available.
@@ -83,7 +84,7 @@ class MessageBuffer {
         // If the queue was closed while waiting and there are no more messages, return an empty
         // string.
         if (closed && messages.empty()) {
-            return {absl::CancelledError("Queue is closed and empty."), {}};
+            return {absl::CancelledError("Queue is closed and empty."), std::nullopt};
         }
 
         // Pop the message from the queue.
@@ -108,11 +109,11 @@ class MessageBuffer {
     ///     TIMEOUT if the timeout was reached.
     ///     CLOSED if the queue is closed and the message is returned.
     ///     EMPTY if the queue is empty and closed.
-    std::pair<absl::Status, T> pop(int timeout) {
+    std::pair<absl::Status, std::optional<T>> pop(int timeout) {
         // Try to pop a message with the pop() method without a timeout.
         auto future = std::async(
             std::launch::async,
-            static_cast<std::pair<absl::Status, T> (MessageBuffer::*)()>(&MessageBuffer::pop),
+            static_cast<std::pair<absl::Status, std::optional<T>> (MessageBuffer::*)()>(&MessageBuffer::pop),
             this);
 
         // Wait until the future is ready or the timeout is reached.
@@ -123,7 +124,7 @@ class MessageBuffer {
             return std::move(future.get());
         } else {
             close();
-            return {absl::DeadlineExceededError("Timeout reached."), {}};
+            return {absl::DeadlineExceededError("Timeout reached."), std::nullopt};
         }
     }
 

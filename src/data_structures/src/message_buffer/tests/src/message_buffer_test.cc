@@ -100,7 +100,7 @@ START_TEST(CloseUnblocksPop) {
     auto t1 = thread([&]() {
         auto [status, res] = queue.pop();
         TEST(status.code() == absl::StatusCode::kCancelled);
-        TEST(res == "");
+        TEST(res == std::nullopt);
     });
 
     // Close the queue.
