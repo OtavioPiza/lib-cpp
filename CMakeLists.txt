@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.18)
 set(CMAKE_CXX_STANDARD 20)
 
 project(libcc)
+get_cmake_property(_variableNames VARIABLES)
 
 
 # Configure the abseil library.
-if (NOT TARGET absl AND NOT ABLS_ADDED)
-    set(ABSL_PROPAGATE_CXX_STD ON)
+if (NOT TARGET absl AND NOT ABSL_ADDED)
     set(ABSL_ADDED TRUE)
 
     # If a user has not specified a directory for abseil, then clone it from GitHub into lib/abseil-cpp.
