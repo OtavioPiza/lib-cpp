@@ -12,7 +12,7 @@ if (NOT TARGET absl AND NOT ABSL_ADDED)
     # If a user has not specified a directory for abseil, then clone it from GitHub into lib/abseil-cpp.
     if (NOT DEFINED ABSL_DIR)
         # Set the directory to clone abseil into.
-        set(ABSL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/abseil-cpp)
+        set(ABSL_DIR ${CMAKE_CURRENT_BINARY_DIR}/lib/abseil-cpp)
 
         # If the directory does not exist, then clone it otherwise pull from origin master.
         if (NOT EXISTS ${ABSL_DIR})
